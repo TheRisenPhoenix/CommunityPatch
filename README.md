@@ -48,6 +48,14 @@ Mit folgenden Schritten lässt sich der Patch installieren:
 	- Ziergebäude
 		- haben 100 Lebenspunkte weniger (=200)
 		- profitieren von 'Leichte Ziegel' und 'Maurerhandwerk'
+		- Neue Ziergebäude
+			- benötigen neben diversen Hochschul-Technologien auch mindestens eine Architektenstube zum Bau
+				- deshalb nur in den AddOns verfügbar
+			- folgende neuen Ziergebäude gibt es
+				- Podium
+				- Kerzenhalter
+				- Gefängniskäfig (aus AeK)
+				- Dampfmaschine
 	- Türme
 		- haben die richtige ArmorClass -> solider gegen alles außer Artillerie
 		- haben auf jeder Stufe 200 Lebenspunkte weniger (=800-1000-1200)
@@ -64,7 +72,12 @@ Mit folgenden Schritten lässt sich der Patch installieren:
 			- AoE auf 4 SM reduziert (vorher: 7 SM)
 			- Ausbau zu diesen kostet zusätzlich 100 Eisen
 			- Schaden von 40 auf 50 erhöht
-		- dunkle Türme sind ausbaubar
+		- dunkle Türme 
+			- sind ausbaubar
+			- können in den AddOns regulär gebaut werden
+				- benötigen mindestens eine Architektenstube
+				- haltet dann beim Drücken auf den Turm-Button [Strg] gedrückt
+	- Architektenstube ermöglicht Bau dunkler Türme sowie neuer Ziergebäuden in den AddOns (siehe 'Ziergebäude' bzw. 'Türme')
 	- Wohnstätten
 		- haben die gleiche ArmorClass wie andere Gebäude (siehe "Türme")
 		- sind stärker gegen alles außer Schwertkämpfer und schwere Kavallerie
@@ -262,16 +275,23 @@ Mit folgenden Schritten lässt sich der Patch installieren:
 				- wirkt auf gleiche Entfernung wie Erecs 'Aura der Stärke' (15 SM)
 				- bewirkt keine einmalige HP-Regeneration mehr
 				- erhöht den verursachten Schaden betroffener Einheiten um 200% (vorher: 100%)
-		- Aris Banditen
-			- werden zu 5. beschworen (vorher: 3)
-			- haben eine Lebensdauer von 2 Min. (vorher: 1 Min.)
-			- wechseln nicht mehr dauernd in die Walk-Animation
-			- haben einen Rüstungspunkt weniger (=3)
-			- haben eine Selbstheilung
-			- haben eine leicht reduzierte Angriffsgeschwindigkeit
-			- profitieren von Technologien der Schwertkämpfer sowie 'Marschieren'
-			- geben Audio-Feedback
-			- sind nicht von Helias konvertierbar
+		- Aris 
+			- ihre Banditen
+				- werden zu 5. beschworen (vorher: 3)
+				- haben eine Lebensdauer von 2 Min. (vorher: 1 Min.)
+				- wechseln nicht mehr dauernd in die Walk-Animation
+				- haben einen Rüstungspunkt weniger (=3)
+				- haben eine Selbstheilung
+				- haben eine leicht reduzierte Angriffsgeschwindigkeit
+				- profitieren von Technologien der Schwertkämpfer sowie 'Marschieren'
+				- geben Audio-Feedback
+				- sind nicht von Helias konvertierbar
+			- Neue Fähigkeit: Meisterschuss
+				- entspricht größtenteils Drakes Fähigkeit gleichen Namens
+				- Reichweite mit 45 SM kürzer als bei Drake (55 SM)
+				- Cooldown mit 2 Min. etwas länger als bei Drake (1:30 Min.)
+				- unterbricht NICHT ihre andere Fähigkeit 'Tarnung'
+				- Nur in den AddOns verfügbar
 		- Salims Heilung heilt Betroffene um 50% ihrer maximalen HP (vorher: 30%)
 		- Helias
 			- seine Fähigkeit 'Segnung' 
@@ -372,7 +392,9 @@ Mit folgenden Schritten lässt sich der Patch installieren:
 	- Der Entlassen-Button wird ausbeblendet, wenn Helden selektiert sind
 	- In Kanonengießereien können Arbeiter und in Tavernen Esser gesichtet werden
 	- Countdowns 
-		- bleiben im Hauptspiel auch nach dem Laden eines Spielstands sichtbar
+		- Hauptspiel
+			- bleiben auch nach dem Laden eines Spielstands sichtbar
+			- sind an der gleichen Position wie im AddOn
 		- bei Beginn der letzten Minute ertönt ein kleiner Sound
 	- Hilfe-Button
 		- gibt bei jedem Helden spezifische Hilfe
@@ -445,6 +467,8 @@ Mit folgenden Schritten lässt sich der Patch installieren:
 			- Tipps sprachlich und inhaltlich korrigiert
 		- fehlerhafte-unpassende Spielerzugehörigkeit mancher Einheiten-Gebäude gefixt
 		- Drakes Gewehrschüsse in Cutscenes sind vertont
+		- In manchen Missionen gibt es nun bis zu 7 Helden
+			- Konkret: Nebelberge, Geld oder Leben, Kampf oder Flucht
 		- Alternative Schwierigkeitsgrade (im Hauptmenü wählbar)
 		- in manchen Missionen können gegnerische Truppen respawnen
 			- z.T. abhängig vom Schwierigkeitsgrad
@@ -493,7 +517,12 @@ Mit folgenden Schritten lässt sich der Patch installieren:
 		- Buggt nicht mehr rum bei Pausierung sowie Änderung der Spielgeschwindigkeit (by Zedeg)
 		- Soundtrack aus anderen Spielen (AeK, S4, Anno 1701, Herr der Ringe, Stronghold (1, Legends))
 		- Analog zum Wetter hat jedes MusicSet eigene Battle-Tracks
-	- Bei Zerstörung und (Aus-)Bau von Gebäuden ertönt ein kleiner Ambient-Sound
+	- Neue Sounds
+		- Bei Zerstörung und (Aus-)Bau von Gebäuden ertönt ein kleiner Ambient-Sound
+		- Alle Einheiten, ausgenommen Helden und Kanonen, haben einen Sound beim sterben (aus AeK)
+		- Pfeile und Bullets haben, analog zu Kanonen, einen Impact-Sound (aus AeK)
+		- Bäume haben einen sound, wenn sie gefällt werden
+		- Wölfe und Bären haben eigene Todes- und Angriff Sounds
 	- Wetter-Effekte sind etwas gemischter
 		- Regen reduziert zusätzlich die Bewegungsgeschwindigkeit von Einheiten um 5% (Winter 15%)
 		- Winter reduziert zusätzlich die Sichtweite von Einheiten und Gebäuden um 5% (Regen 20%)
@@ -516,6 +545,9 @@ Mit folgenden Schritten lässt sich der Patch installieren:
 		- 'PU_Coiner' (Goldschmied) ist nun ein NPC, kein Arbeiter
 		- Misc-Items für Gewehre und NV-Drops ohne begrenzte Lebensdauer hinzugefügt
 			- Konkret: XD_MiscRifle1, XD_MiscRifle2, XD_Misc_EvilBearman & XD_Misc_EvilSkirmisher
+	- Neue Bodentexturen
+		- Marmor
+		- Lava (auf Siedler 7)
 	- NPCs können vom Spieler normal kontrolliert werden
 		- einige geben passendes AudioFeedback und haben ebenso passende VideoPreviews
 		- auch militärisch erscheindende NPCs (z.B. der Ordensritter) 
@@ -524,12 +556,18 @@ Mit folgenden Schritten lässt sich der Patch installieren:
 		- Der Selektionsring ist der gleiche wie bei normalen Arbeitern, nur ggf. etwas größer
 		- sie werden, je nach Typ, von zivilen oder militärischen Technologien beeinflusst
 	- Söldnerquartiere und Tech-Trader erlauben bis zu 6 Angebote
+	- Der Find-Button des 7. Helden kann folgendermaßen aktiviert
+		- Im Mapscript, z.B. in der FMA, die HeroId setzen: gvGUI.BonusHeroId = GetEntityId(heroName)
+		- Hinweise
+			- Sollte nur bei regulär 6 Helden erfolgen, da es sonst komisch aussieht
+			- Wer der 7. Held ist und somit in der regulären FindView fehlt muss je nach Map manuell ermittelt werden
 	- Der Held 'PU_Hero1' sieht aus wie Dovbar
 		- inkl. Find-Button
 		- MultiSelection-Button (Textur by Zedeg)
 		- AudioFeedback stammt von den Kundschaftern
 	- Die Technologie 'Aegis' trägt die interne Bezeichnung 'T_PlateBardingArmor'
 	- Die Reskins von Eisen- und Belagerungskanone heißen 'PV_Cannon3a' und 'PV_Cannon4a'
+	- Der Bau von Reskins, die über [Strg] erfolgen, (z.B. dunkle Türme) kann über die Technologie 'T_AllowEntitySkins' pauschal verboten werden
 	- Die Technologie 'KI-Bonus' 
 		- ist als 'T_SuperTechnology' bekannt, nur deutlich weniger overpowered
 		- ist bei allen Spieler-Entities hinterlegt
@@ -685,7 +723,13 @@ Mit folgenden Schritten lässt sich der Patch installieren:
 
 
 ## Weitere Ideen:
-- Mehr als 6 Helden in HeroFind-View ermöglichen
+- AeK-Sounds
+	- Eigener Todes-Sound für Nebelkrieger
+	- Walk Sounds für Infanterie und Kavallerie
+	- Irgendwas für Helden und Kanonen
+- Silbermine als CB
+- Hundekäfig im Stronghold-Stil
+- AeK-Frauen
 - Meuchel-Ability für Diebe(?)
 - extra1-Map 'Thalbach' neu aufsetzen
 - BattleMusic bei vom Spieler besiegten Einheiten(?)

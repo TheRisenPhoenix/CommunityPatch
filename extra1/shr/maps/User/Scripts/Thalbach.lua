@@ -12,10 +12,17 @@ IncludeGlobals("MapEditorTools")
 --++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 -- This function is called from main script to initialize the diplomacy states
 function InitDiplomacy()
-    SetNeutral(1, 3)
     SetHostile(1, 4)
     SetFriendly(1, 2)
-    SetNeutral(3, 4)
+    SetHostile(3, 4)
+    SetHostile(2, 4)
+
+    SetNeutral(1, 3)
+    SetNeutral(2, 3)
+
+    SetPlayerName(2, "St. Tropez")
+    SetPlayerName(3, "Avignon")
+    SetPlayerName(4, "Nebelvolk")
 end
 
 
@@ -34,9 +41,9 @@ end
 --++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 -- This function is called to setup Technology states on mission start
 function InitTechnologies()
-    ResearchAllMilitaryTechsAddOn(2)
-    ResearchAllMilitaryTechsAddOn(3)
-    ResearchAllMilitaryTechsAddOn(4, true)
+    -- ResearchAllMilitaryTechsAddOn(2)
+    -- ResearchAllMilitaryTechsAddOn(3)
+    -- ResearchAllMilitaryTechsAddOn(4, true)
 end
 
 --++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -78,48 +85,32 @@ end
 function FirstMapAction()
     LocalMusic.UseSet = DARKMOORMUSIC
 
-    MapEditor_SetupDestroyVictoryCondition(3)
+    -- MapEditor_SetupDestroyVictoryCondition(3)
 
     -- Level 0 is deactivated...ignore
-    MapEditor_SetupAI(2, 2, 50000, 2, "StTropez", 1, 0)
+    MapEditor_SetupAI(2, 2, 20000, 1, "StTropez", 1, 0)
     MapEditor_SetupAI(3, 3, 60000, 3, "DarkCastle", 3, 5400)
-    MapEditor_SetupAI(4, 3, 70000, 0, "Nebelvolk", 3, 0)
-    MapEditor_SetupAI(5, 0, 0, 0, "", 0, 0)
-    MapEditor_SetupAI(6, 0, 0, 0, "", 0, 0)
-    MapEditor_SetupAI(7, 0, 0, 0, "", 0, 0)
-    MapEditor_SetupAI(8, 0, 0, 0, "", 0, 0)
+    -- MapEditor_SetupAI(4, 3, 70000, 0, "Nebelvolk", 3, 0)
+    -- MapEditor_SetupAI(5, 0, 0, 0, "", 0, 0)
+    -- MapEditor_SetupAI(6, 0, 0, 0, "", 0, 0)
+    -- MapEditor_SetupAI(7, 0, 0, 0, "", 0, 0)
+    -- MapEditor_SetupAI(8, 0, 0, 0, "", 0, 0)
 
-    SetNeutral(1, 3)
-    SetFriendly(1, 2)
 
     -- HQ Defeat Condition
     MapEditor_CreateHQDefeatCondition()
 
-    createBriefingHelias()
-    createBriefingBergmann()
-    createBriefingSoldat()
-    createBriefingKundschafter()
+    -- createBriefingHelias()
+    -- createBriefingBergmann()
+    -- createBriefingSoldat()
+    -- createBriefingKundschafter()
 
     createPlayer2()
     createPlayer3()
-    createPlayer4()
+    -- createPlayer4()
 
     createArmyone()
-    createArmytwo()
-    createArmythree()
-    createArmyfour()
-    createArmyfive()
-    createArmysix()
-    createArmyseven()
     createArmyallone()
-    createArmyalltwo()
-    createArmyallthree()
-    createArmyreiterone()
-    createArmyreitertwo()
-    createArmybogenone()
-    createArmybogentwo()
-    createArmyschwertone()
-    createArmyschwerttwo()
 
     StartSimpleJob("vicone")
     --createBriefingHeliastwo()
@@ -129,15 +120,80 @@ function FirstMapAction()
     local pos = GetPosition("dario")
     Camera.ScrollSetLookAt(pos.X, pos.Y)
 
-    StartCountdown(90 * 60, MakeP2Hostile, true)
+    -- StartCountdown(90 * 60, MakeP2Hostile, true)
 
-    --CP_ActivateEvilMod(1, 1, 1)
+    CP_ActivateEvilMod(3, 1, 1)
     --Tools.ExploreArea(-1, -1, 900)
+
+    startIntroBriefing()
 end
 
 function MakeP2Hostile()
     SetHostile(1, 3)
 end
+
+function startIntroBriefing()
+    briefingIntro = {}
+    briefingIntro.restoreCamera = true
+
+    local page = 0
+
+    page = page + 1
+
+    briefingIntro[page] = {}
+    briefingIntro[page].title = "Dovbar"
+    briefingIntro[page].text = "Dario! Wie gut dass euch unsere Nachricht erreicht hat. Wir brauchen wirklich dringend Hilfe!"
+    briefingIntro[page].position = GetPosition("Dovbar")
+    briefingIntro[page].explore = BRIEFING_EXPLORATION_RANGE
+    briefingIntro[page].dialogCamera = true
+
+    page = page + 1
+
+    briefingIntro[page] = {}
+    briefingIntro[page].title = "Dario"
+    briefingIntro[page].text = "Aber natürlich. Wenn ein alter Freund um Hilfe bittet, sind wir natürlich unterwegs. Was kann ich für euch tun? In der Nachricht schriebt ihr dass es Probleme mit der benachbarten Stadt gibt?"
+    briefingIntro[page].position = GetPosition("dario")
+
+    page = page + 1
+
+    briefingIntro[page] = {}
+    briefingIntro[page].title = "Dovbar"
+    briefingIntro[page].text = "Nicht nur das! Seit wir uns in dieser Gegend niedergelassen haben, wussten wir, dass in den Bergen ein großer Stamm des Nebelvolkes lebt. Bis auf vereinzelte Konflikte hatten wir auch keine Probleme mit denen, genauso wenig wie mit unserem Nachbarn Avignon."
+    briefingIntro[page].position = GetPosition("Dovbar")
+
+    page = page + 1
+    briefingIntro[page] = {}
+    briefingIntro[page].title = "Dovbar"
+    briefingIntro[page].text = "Doch seit Avignon sich weiter ausgebreitet hat und immer tiefer in die Stammesgebiete eindringt um die dortigen Ressourcen auszubeuten, nehmen die Angriffe wieder zu."
+    briefingIntro[page].position = GetPosition("Dovbar")
+
+    page = page + 1
+    briefingIntro[page] = {}
+    briefingIntro[page].title = "Dovbar"
+    briefingIntro[page].text = "Der Stadthalter von Avignon ist blind vor Hass. Er versucht, so viele Ressourcen wie möglich an sich zu reißen. Das hat dazu geführt, dass er selbst unsere Ressourcen will. Als wir sie ihm nicht für seine Kriegstreiberei geben wollten, fing er an, auch uns anzugreifen."
+    briefingIntro[page].position = GetPosition("Dovbar")
+
+    page = page + 1
+    briefingIntro[page] = {}
+    briefingIntro[page].title = "Dario"
+    briefingIntro[page].text = "Dann helfen wir euch gerne, den Tribut für eine gewisse Zeit zu überbrücken und euch gegen die Angriffe zu unterstützen!"
+    briefingIntro[page].position = GetPosition("dario")
+
+    page = page + 1
+    briefingIntro[page] = {}
+    briefingIntro[page].title = "Dovbar"
+    briefingIntro[page].text = "Das wäre prima. Solange wir die Tribute bezahlen können, sind wir wenigstens vor Angriffen von der einen Seite geschützt. Vielleicht könnten wir es sogar irgendwie hinbekommen, dass sich das Nebelvolk auf Avignon konzentriert?"
+    briefingIntro[page].position = GetPosition("Dovbar")
+
+    page = page + 1
+    briefingIntro[page] = {}
+    briefingIntro[page].title = "Dario"
+    briefingIntro[page].text = "Klingt nach einer guten Idee. Ich werde mir das mal überlegen. Aber zuerst müssen wir eine gute Basis errichten."
+    briefingIntro[page].position = GetPosition("dario")
+
+    StartBriefing(briefingIntro)
+end
+
 
 function createBriefingHelias()
     BriefingHelias = {}
@@ -289,19 +345,16 @@ end
 function createPlayer2()
     local description = { constructing = true, extracting = 0, repairing = true, serfLimit = 8 }
     SetupPlayerAi(2, description)
-    SetPlayerName(2, "St. Tropez")
 end
 
 function createPlayer3()
     local description = { { constructing = true, extracting = 1, repairing = true, serfLimit = 15 } }
     SetupPlayerAi(3, description)
-    SetPlayerName(3, "Avignon")
 end
 
 function createPlayer4()
     local description = { serflimit = 0 }
     SetupPlayerAi(p4, description)
-    SetPlayerName(4, "Nebelvolk")
 end
 
 function createArmyone()
@@ -326,138 +379,6 @@ function createArmyone()
 
 end
 
-function createArmytwo()
-
-    armytwo = {}
-
-    armytwo.player = 4
-    armytwo.id = 2
-    armytwo.strength = 3
-    armytwo.position = GetPosition("Armytwo")
-    armytwo.rodelenght = 60000
-
-    SetupArmy(armytwo)
-
-    local troopDescription = { leaderType = Entities.CU_Evil_LeaderBearman1, maxNumberOfSoldiers = 16, minNumberOfSoldiers = 4, experiencePoints = VERYHIGH_EXPERIENCE }
-
-    EnlargeArmy(armytwo, troopDescription)
-    EnlargeArmy(armytwo, troopDescription)
-    EnlargeArmy(armytwo, troopDescription)
-
-    Defend(armytwo)
-
-end
-
-function createArmythree()
-
-    armythree = {}
-
-    armythree.player = 4
-    armythree.id = 3
-    armythree.strength = 3
-    armythree.position = GetPosition("Armythree")
-    armythree.rodelenght = 60000
-
-    SetupArmy(armythree)
-
-    local troopDescription = { leaderType = Entities.CU_Evil_LeaderSkirmisher1, maxNumberOfSoldiers = 16, minNumberOfSoldiers = 4, experiencePoints = VERYHIGH_EXPERIENCE }
-
-    EnlargeArmy(armythree, troopDescription)
-    EnlargeArmy(armythree, troopDescription)
-    EnlargeArmy(armythree, troopDescription)
-
-    Defend(armythree)
-
-end
-
-function createArmyfour()
-
-    armyfour = {}
-
-    armyfour.player = 4
-    armyfour.id = 4
-    armyfour.strength = 3
-    armyfour.position = GetPosition("Armyfour")
-    armyfour.rodelenght = 60000
-
-    SetupArmy(armyfour)
-
-    local troopDescription = { leaderType = Entities.CU_Evil_LeaderBearman1, maxNumberOfSoldiers = 16, minNumberOfSoldiers = 4, experiencePoints = VERYHIGH_EXPERIENCE }
-
-    EnlargeArmy(armyfour, troopDescription)
-    EnlargeArmy(armyfour, troopDescription)
-    EnlargeArmy(armyfour, troopDescription)
-
-    Defend(armyfour)
-
-end
-
-function createArmyfive()
-
-    armyfive = {}
-
-    armyfive.player = 4
-    armyfive.id = 5
-    armyfive.strength = 3
-    armyfive.position = GetPosition("Armyfive")
-    armyfive.rodelenght = 60000
-
-    SetupArmy(armyfive)
-
-    local troopDescription = { leaderType = Entities.CU_Evil_LeaderBearman1, maxNumberOfSoldiers = 16, minNumberOfSoldiers = 4, experiencePoints = VERYHIGH_EXPERIENCE, }
-
-    EnlargeArmy(armyfive, troopDescription)
-    EnlargeArmy(armyfive, troopDescription)
-    EnlargeArmy(armyfive, troopDescription)
-
-    Defend(armyfive)
-
-end
-
-function createArmysix()
-
-    armysix = {}
-
-    armysix.player = 4
-    armysix.id = 6
-    armysix.strength = 3
-    armysix.position = GetPosition("Armysix")
-    armysix.rodelenght = 60000
-
-    SetupArmy(armysix)
-
-    local troopDescription = { leaderType = Entities.CU_Evil_LeaderBearman1, maxNumberOfSoldiers = 16, minNumberOfSoldiers = 4, experiencePoints = VERYHIGH_EXPERIENCE }
-
-    EnlargeArmy(armysix, troopDescription)
-    EnlargeArmy(armysix, troopDescription)
-    EnlargeArmy(armysix, troopDescription)
-
-    Defend(armysix)
-
-end
-
-function createArmyseven()
-
-    armyseven = {}
-
-    armyseven.player = 4
-    armyseven.id = 7
-    armyseven.strength = 3
-    armyseven.position = GetPosition("Armyseven")
-    armyseven.rodelenght = 60000
-
-    SetupArmy(armyseven)
-
-    local troopDescription = { leaderType = Entities.CU_Evil_LeaderSkirmisher1, maxNumberOfSoldiers = 16, minNumberOfSoldiers = 4, experiencePoints = VERYHIGH_EXPERIENCE }
-
-    EnlargeArmy(armyseven, troopDescription)
-    EnlargeArmy(armyseven, troopDescription)
-    EnlargeArmy(armyseven, troopDescription)
-
-    Defend(armyseven)
-
-end
-
 function createArmyallone()
 
     armyallone = {}
@@ -477,184 +398,6 @@ function createArmyallone()
     EnlargeArmy(armyallone, troopDescription)
 
     Defend(armyallone)
-
-end
-
-function createArmyalltwo()
-
-    armyalltwo = {}
-
-    armyalltwo.player = 3
-    armyalltwo.id = 9
-    armyalltwo.strength = 3
-    armyalltwo.position = GetPosition("Armyall")
-    armyalltwo.rodelenght = 60000
-
-    SetupArmy(armyalltwo)
-
-    local troopDescription = { leaderType = Entities.PU_LeaderPoleArm4, maxNumberOfSoldiers = 8, minNumberOfSoldiers = 4, experiencePoints = VERYHIGH_EXPERIENCE }
-
-    EnlargeArmy(armyalltwo, troopDescription)
-    EnlargeArmy(armyalltwo, troopDescription)
-    EnlargeArmy(armyalltwo, troopDescription)
-
-    Defend(armyallone)
-
-end
-
-function createArmyallthree()
-
-    armyallthree = {}
-
-    armyallthree.player = 3
-    armyallthree.id = 10
-    armyallthree.strength = 3
-    armyallthree.position = GetPosition("Armyall")
-    armyallthree.rodelenght = 60000
-
-    SetupArmy(armyallthree)
-
-    local troopDescription = { leaderType = Entities.PU_LeaderHeavyCavalry2, maxNumberOfSoldiers = 3, minNumberOfSoldiers = 3, experiencePoints = VERYHIGH_EXPERIENCE, }
-
-    EnlargeArmy(armyallthree, troopDescription)
-    EnlargeArmy(armyallthree, troopDescription)
-    EnlargeArmy(armyallthree, troopDescription)
-
-    Defend(armyallthree)
-
-end
-
-function createArmyreiterone()
-
-    armyreiterone = {}
-
-    armyreiterone.player = 3
-    armyreiterone.id = 11
-    armyreiterone.strength = 3
-    armyreiterone.position = GetPosition("Reiterone")
-    armyreiterone.rodelenght = 60000
-
-    SetupArmy(armyreiterone)
-
-    local troopDescription = { leaderType = Entities.PU_LeaderHeavyCavalry2, maxNumberOfSoldiers = 3, minNumberOfSoldiers = 3, experiencePoints = VERYHIGH_EXPERIENCE }
-
-    EnlargeArmy(armyreiterone, troopDescription)
-    EnlargeArmy(armyreiterone, troopDescription)
-    EnlargeArmy(armyreiterone, troopDescription)
-
-    Defend(armyreiterone)
-
-end
-
-function createArmyreitertwo()
-
-    armyreitertwo = {}
-
-    armyreitertwo.player = 3
-    armyreitertwo.id = 12
-    armyreitertwo.strength = 3
-    armyreitertwo.position = GetPosition("Reitertwo")
-    armyreitertwo.rodelenght = 60000
-
-    SetupArmy(armyreitertwo)
-
-    local troopDescription = { leaderType = Entities.PU_LeaderHeavyCavalry2, maxNumberOfSoldiers = 3, minNumberOfSoldiers = 3, experiencePoints = VERYHIGH_EXPERIENCE }
-
-    troopDescription.leaderType = Entities.PU_LeaderHeavyCavalry2
-
-    EnlargeArmy(armyreitertwo, troopDescription)
-    EnlargeArmy(armyreitertwo, troopDescription)
-    EnlargeArmy(armyreitertwo, troopDescription)
-
-    Defend(armyreitertwo)
-
-end
-
-function createArmybogenone()
-
-    armybogenone = {}
-
-    armybogenone.player = 3
-    armybogenone.id = 13
-    armybogenone.strength = 3
-    armybogenone.position = GetPosition("Bogenone")
-    armybogenone.rodelenght = 60000
-
-    SetupArmy(armybogenone)
-
-    local troopDescription = { leaderType = Entities.PU_LeaderBow4, maxNumberOfSoldiers = 8, minNumberOfSoldiers = 4, experiencePoints = VERYHIGH_EXPERIENCE }
-
-    EnlargeArmy(armybogenone, troopDescription)
-    EnlargeArmy(armybogenone, troopDescription)
-    EnlargeArmy(armybogenone, troopDescription)
-
-    Defend(armybogenone)
-
-end
-
-function createArmybogentwo()
-
-    armybogentwo = {}
-
-    armybogentwo.player = 3
-    armybogentwo.id = 14
-    armybogentwo.strength = 3
-    armybogentwo.position = GetPosition("Bogentwo")
-    armybogentwo.rodelenght = 60000
-
-    SetupArmy(armybogentwo)
-
-    local troopDescription = { leaderType = Entities.PU_LeaderBow4, maxNumberOfSoldiers = 8, minNumberOfSoldiers = 4, experiencePoints = VERYHIGH_EXPERIENCE }
-
-    EnlargeArmy(armybogentwo, troopDescription)
-    EnlargeArmy(armybogentwo, troopDescription)
-    EnlargeArmy(armybogentwo, troopDescription)
-
-    Defend(armybogentwo)
-
-end
-
-function createArmyschwertone()
-
-    armySchwertone = {}
-
-    armySchwertone.player = 3
-    armySchwertone.id = 15
-    armySchwertone.strength = 3
-    armySchwertone.position = GetPosition("Schwertone")
-    armySchwertone.rodelenght = 60000
-
-    SetupArmy(armySchwertone)
-
-    local troopDescription = { leaderType = Entities.PU_LeaderSword4, maxNumberOfSoldiers = 8, minNumberOfSoldiers = 4, experiencePoints = VERYHIGH_EXPERIENCE }
-
-    EnlargeArmy(armySchwertone, troopDescription)
-    EnlargeArmy(armySchwertone, troopDescription)
-    EnlargeArmy(armySchwertone, troopDescription)
-
-    Defend(armySchwertone)
-
-end
-
-function createArmyschwerttwo()
-
-    armySchwerttwo = {}
-
-    armySchwerttwo.player = 3
-    armySchwerttwo.id = 16
-    armySchwerttwo.strength = 3
-    armySchwerttwo.position = GetPosition("Schwerttwo")
-    armySchwerttwo.rodelenght = 60000
-
-    SetupArmy(armySchwerttwo)
-
-    local troopDescription = { leaderType = Entities.PU_LeaderSword4, maxNumberOfSoldiers = 8, minNumberOfSoldiers = 4, experiencePoints = VERYHIGH_EXPERIENCE }
-
-    EnlargeArmy(armySchwerttwo, troopDescription)
-    EnlargeArmy(armySchwerttwo, troopDescription)
-    EnlargeArmy(armySchwerttwo, troopDescription)
-
-    Defend(armySchwerttwo)
 
 end
 

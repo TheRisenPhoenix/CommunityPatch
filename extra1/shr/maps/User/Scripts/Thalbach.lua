@@ -16,9 +16,10 @@ function InitDiplomacy()
     SetFriendly(1, 2)
     SetHostile(3, 4)
     SetHostile(2, 4)
+    SetHostile(2, 3)
 
-    SetNeutral(1, 3)
-    SetNeutral(2, 3)
+    -- SetNeutral(1, 3)
+    -- SetNeutral(2, 3)
 
     SetPlayerName(2, "St. Tropez")
     SetPlayerName(3, "Avignon")
@@ -88,17 +89,9 @@ function FirstMapAction()
     -- MapEditor_SetupDestroyVictoryCondition(3)
 
     -- Level 0 is deactivated...ignore
-    MapEditor_SetupAI(2, 2, 20000, 1, "StTropez", 1, 0)
-    MapEditor_SetupAI(3, 3, 60000, 3, "DarkCastle", 3, 5400)
-    -- MapEditor_SetupAI(4, 3, 70000, 0, "Nebelvolk", 3, 0)
-    -- MapEditor_SetupAI(5, 0, 0, 0, "", 0, 0)
-    -- MapEditor_SetupAI(6, 0, 0, 0, "", 0, 0)
-    -- MapEditor_SetupAI(7, 0, 0, 0, "", 0, 0)
-    -- MapEditor_SetupAI(8, 0, 0, 0, "", 0, 0)
-
-
-    -- HQ Defeat Condition
-    MapEditor_CreateHQDefeatCondition()
+    MapEditor_SetupAI(2, 1, 8500, 1, "StTropez", 0, 0)
+    MapEditor_SetupAI(3, 3, 40000, 3, "DarkCastle", 2, 0)
+    MapEditor_SetupAI(4, 3, 70000, 0, "NebelvolkHQ", 3, 0)
 
     -- createBriefingHelias()
     -- createBriefingBergmann()
@@ -107,12 +100,14 @@ function FirstMapAction()
 
     createPlayer2()
     createPlayer3()
+
+    createArmyNebelvolk()
     -- createPlayer4()
 
-    createArmyone()
-    createArmyallone()
+    -- createArmyone()
+    -- createArmyallone()
 
-    StartSimpleJob("vicone")
+    -- StartSimpleJob("vicone")
     --createBriefingHeliastwo()
     StartSimpleJob("VictoryJob")
     StartSimpleJob("DefeatJob")
@@ -123,9 +118,12 @@ function FirstMapAction()
     -- StartCountdown(90 * 60, MakeP2Hostile, true)
 
     CP_ActivateEvilMod(3, 1, 1)
-    --Tools.ExploreArea(-1, -1, 900)
+    Tools.ExploreArea(-1, -1, 900)
 
-    startIntroBriefing()
+    -- startIntroBriefing()
+
+    MakeInvulnerable("Dovbar")
+    -- Game.GameTimeSetFactor(200)
 end
 
 function MakeP2Hostile()
@@ -153,6 +151,7 @@ function startIntroBriefing()
     briefingIntro[page].title = "Dario"
     briefingIntro[page].text = "Aber natürlich. Wenn ein alter Freund um Hilfe bittet, sind wir natürlich unterwegs. Was kann ich für euch tun? In der Nachricht schriebt ihr dass es Probleme mit der benachbarten Stadt gibt?"
     briefingIntro[page].position = GetPosition("dario")
+    briefingIntro[page].dialogCamera = true
 
     page = page + 1
 
@@ -160,30 +159,35 @@ function startIntroBriefing()
     briefingIntro[page].title = "Dovbar"
     briefingIntro[page].text = "Nicht nur das! Seit wir uns in dieser Gegend niedergelassen haben, wussten wir, dass in den Bergen ein großer Stamm des Nebelvolkes lebt. Bis auf vereinzelte Konflikte hatten wir auch keine Probleme mit denen, genauso wenig wie mit unserem Nachbarn Avignon."
     briefingIntro[page].position = GetPosition("Dovbar")
+    briefingIntro[page].dialogCamera = true
 
     page = page + 1
     briefingIntro[page] = {}
     briefingIntro[page].title = "Dovbar"
     briefingIntro[page].text = "Doch seit Avignon sich weiter ausgebreitet hat und immer tiefer in die Stammesgebiete eindringt um die dortigen Ressourcen auszubeuten, nehmen die Angriffe wieder zu."
-    briefingIntro[page].position = GetPosition("Dovbar")
+    briefingIntro[page].explore = BRIEFING_EXPLORATION_RANGE
+    briefingIntro[page].position = GetPosition("IntroRessources")
 
     page = page + 1
     briefingIntro[page] = {}
     briefingIntro[page].title = "Dovbar"
     briefingIntro[page].text = "Der Stadthalter von Avignon ist blind vor Hass. Er versucht, so viele Ressourcen wie möglich an sich zu reißen. Das hat dazu geführt, dass er selbst unsere Ressourcen will. Als wir sie ihm nicht für seine Kriegstreiberei geben wollten, fing er an, auch uns anzugreifen."
     briefingIntro[page].position = GetPosition("Dovbar")
+    briefingIntro[page].dialogCamera = true
 
     page = page + 1
     briefingIntro[page] = {}
     briefingIntro[page].title = "Dario"
     briefingIntro[page].text = "Dann helfen wir euch gerne, den Tribut für eine gewisse Zeit zu überbrücken und euch gegen die Angriffe zu unterstützen!"
     briefingIntro[page].position = GetPosition("dario")
+    briefingIntro[page].dialogCamera = true
 
     page = page + 1
     briefingIntro[page] = {}
     briefingIntro[page].title = "Dovbar"
     briefingIntro[page].text = "Das wäre prima. Solange wir die Tribute bezahlen können, sind wir wenigstens vor Angriffen von der einen Seite geschützt. Vielleicht könnten wir es sogar irgendwie hinbekommen, dass sich das Nebelvolk auf Avignon konzentriert?"
     briefingIntro[page].position = GetPosition("Dovbar")
+    briefingIntro[page].dialogCamera = true
 
     page = page + 1
     briefingIntro[page] = {}
@@ -343,12 +347,12 @@ function createBriefingKundschafter()
 end
 
 function createPlayer2()
-    local description = { constructing = true, extracting = 0, repairing = true, serfLimit = 8 }
+    local description = { constructing = true, extracting = false, repairing = true, serfLimit = 6, rebuild	= {delay= 30, randomTime = 30},resources = {gold = 6000,clay = 6000,iron = 6000,sulfur = 6000, wood = 6000}, refresh = {gold = 100,clay = 100,iron = 100,sulfur = 100, wood = 100} }
     SetupPlayerAi(2, description)
 end
 
 function createPlayer3()
-    local description = { { constructing = true, extracting = 1, repairing = true, serfLimit = 15 } }
+    local description = { constructing = true, rebuild	= {delay= 30, randomTime = 30}, extracting = 1, repairing = true, serfLimit = 15,resources = {gold = 30000,clay = 30000,iron = 30000,sulfur = 30000, wood = 30000} , refresh = {gold = 0,clay = 0,iron = 0,sulfur = 0, wood = 0} } 
     SetupPlayerAi(3, description)
 end
 
@@ -356,6 +360,34 @@ function createPlayer4()
     local description = { serflimit = 0 }
     SetupPlayerAi(p4, description)
 end
+
+function createArmyNebelvolk()
+    armyNebelvolkDefender = {}
+
+    armyNebelvolkDefender.player = 4
+    armyNebelvolkDefender.id = 1
+    armyNebelvolkDefender.strength = 3
+    armyNebelvolkDefender.position = GetPosition("NebelvolkHQ")
+    armyNebelvolkDefender.rodelenght = 60000
+
+    SetupArmy(armyNebelvolkDefender)
+
+    local troopDescriptionBearman = { leaderType = Entities.CU_Evil_LeaderBearman1, maxNumberOfSoldiers = 16, minNumberOfSoldiers = 4, experiencePoints = VERYHIGH_EXPERIENCE }
+    local troopDescriptionSkirmisher = { leaderType = Entities.CU_Evil_LeaderSkirmisher1, maxNumberOfSoldiers = 16, minNumberOfSoldiers = 4, experiencePoints = VERYHIGH_EXPERIENCE }
+
+    EnlargeArmy(armyNebelvolkDefender, troopDescriptionBearman)
+    EnlargeArmy(armyNebelvolkDefender, troopDescriptionBearman)
+    EnlargeArmy(armyNebelvolkDefender, troopDescriptionBearman)
+    EnlargeArmy(armyNebelvolkDefender, troopDescriptionBearman)
+    EnlargeArmy(armyNebelvolkDefender, troopDescriptionBearman)
+    EnlargeArmy(armyNebelvolkDefender, troopDescriptionSkirmisher)
+    EnlargeArmy(armyNebelvolkDefender, troopDescriptionSkirmisher)
+    EnlargeArmy(armyNebelvolkDefender, troopDescriptionSkirmisher)
+    EnlargeArmy(armyNebelvolkDefender, troopDescriptionSkirmisher)
+
+    Defend(armyNebelvolkDefender)
+end
+
 
 function createArmyone()
 
@@ -399,13 +431,6 @@ function createArmyallone()
 
     Defend(armyallone)
 
-end
-
-function vicone()
-    if IsDead("Nebelvolk") then
-        createBriefingHeliastwo()
-        return true
-    end
 end
 
 function createBriefingHeliastwo()
@@ -459,6 +484,8 @@ end
 
 function DefeatJob()
     if IsDead("StTropez") or IsDead("Player1_HQ") then
+        Message(IsDead("StTropez"))
+        Message(IsDead("Player1_HQ"))
         Defeat()
         return true
     end

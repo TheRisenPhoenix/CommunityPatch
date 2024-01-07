@@ -123,7 +123,8 @@ function FirstMapAction()
     -- startIntroBriefing()
 
     MakeInvulnerable("Dovbar")
-    -- Game.GameTimeSetFactor(200)
+    Game.GameTimeSetFactor(200)
+
 end
 
 function MakeP2Hostile()
@@ -362,30 +363,52 @@ function createPlayer4()
 end
 
 function createArmyNebelvolk()
+    -- Defender in Center
     armyNebelvolkDefender = {}
-
     armyNebelvolkDefender.player = 4
     armyNebelvolkDefender.id = 1
     armyNebelvolkDefender.strength = 3
     armyNebelvolkDefender.position = GetPosition("NebelvolkHQ")
-    armyNebelvolkDefender.rodelenght = 60000
-
+    armyNebelvolkDefender.rodeLength = 2000
     SetupArmy(armyNebelvolkDefender)
 
     local troopDescriptionBearman = { leaderType = Entities.CU_Evil_LeaderBearman1, maxNumberOfSoldiers = 16, minNumberOfSoldiers = 4, experiencePoints = VERYHIGH_EXPERIENCE }
     local troopDescriptionSkirmisher = { leaderType = Entities.CU_Evil_LeaderSkirmisher1, maxNumberOfSoldiers = 16, minNumberOfSoldiers = 4, experiencePoints = VERYHIGH_EXPERIENCE }
 
-    EnlargeArmy(armyNebelvolkDefender, troopDescriptionBearman)
-    EnlargeArmy(armyNebelvolkDefender, troopDescriptionBearman)
-    EnlargeArmy(armyNebelvolkDefender, troopDescriptionBearman)
-    EnlargeArmy(armyNebelvolkDefender, troopDescriptionBearman)
-    EnlargeArmy(armyNebelvolkDefender, troopDescriptionBearman)
-    EnlargeArmy(armyNebelvolkDefender, troopDescriptionSkirmisher)
-    EnlargeArmy(armyNebelvolkDefender, troopDescriptionSkirmisher)
-    EnlargeArmy(armyNebelvolkDefender, troopDescriptionSkirmisher)
-    EnlargeArmy(armyNebelvolkDefender, troopDescriptionSkirmisher)
+    for i = 1,6 do
+        EnlargeArmy(armyNebelvolkDefender, troopDescriptionBearman)
+    end
+    for i = 1,5 do
+        EnlargeArmy(armyNebelvolkDefender, troopDescriptionSkirmisher)
+    end
 
     Defend(armyNebelvolkDefender)
+
+
+    -- Defender on the way and outside
+    for i = 1,6 do
+        armyNebelvolkDefender = {}
+        armyNebelvolkDefender.player = 4
+        armyNebelvolkDefender.id = 1
+        armyNebelvolkDefender.strength = 3
+        armyNebelvolkDefender.position = GetPosition("NebelvolkPos"..i)
+        armyNebelvolkDefender.rodeLength = 5000
+        SetupArmy(armyNebelvolkDefender)
+
+        local troopDescriptionBearman = { leaderType = Entities.CU_Evil_LeaderBearman1, maxNumberOfSoldiers = 16, minNumberOfSoldiers = 4, experiencePoints = VERYHIGH_EXPERIENCE }
+        local troopDescriptionSkirmisher = { leaderType = Entities.CU_Evil_LeaderSkirmisher1, maxNumberOfSoldiers = 16, minNumberOfSoldiers = 4, experiencePoints = VERYHIGH_EXPERIENCE }
+
+        for i = 1,3 do
+            EnlargeArmy(armyNebelvolkDefender, troopDescriptionBearman)
+        end
+        for i = 1,4 do
+            EnlargeArmy(armyNebelvolkDefender, troopDescriptionSkirmisher)
+        end
+
+        Defend(armyNebelvolkDefender)
+    end
+
+
 end
 
 
